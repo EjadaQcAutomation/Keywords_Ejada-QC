@@ -1,10 +1,11 @@
 package pk_Functions
-/* Created By ‘Ebtehal Gamal Yusuf’
- * Date 06/01/2019
- * Usage:This function is used to select record from webtable and click on any action button
- * Input: There are four inputs required for this function (Webtable locator ,Expected Value,Exepcted Value Column Value and Action Button Column Value) 
- *  1- File name    2- Sheet name
- * Output: Output is list of object
+/* Created By Asmaa Elsayed Ibrahim
+ * Date 25/12/2018
+ * Usage: Setting data existing in data excel sheet into certain objects exist in objects excel file/sheet 
+ *        with the same order that exists by calling ObjectFun function
+ * Input :  This Function takes four inputs 
+ *  1- fields names 2- File name  3- Sheet name  4- Data as variable using binding 
+ * Output : there isn't output 
  */
 import static com.kms.katalon.core.checkpoint.CheckpointFactory.findCheckpoint
 import static com.kms.katalon.core.testcase.TestCaseFactory.findTestCase
@@ -45,43 +46,22 @@ import static com.kms.katalon.core.testobject.ObjectRepository.findTestObject
 import javax.lang.model.element.VariableElement
 import login_object.loginObject.*
 import static com.kms.katalon.core.testdata.TestDataFactory.findTestData
-import com.kms.katalon.core.webui.driver.DriverFactory as DriverFactory
+import com.kms.katalon.core.testdata.ExcelData
 
-public class CS_SelectRecordFromWebtable {
+public class CS_SpecificData {
 
+	// Setting data existing in excel sheet of data into selected certain objects existing in certain excel sheet
+	// and certain sheet name that stored in list by calling  ObjectFun  function
 	@Keyword
-	SelectRecordFromWebtableFun (String webtableId , String expectedValue , int expectedValueColumn , int actionButtonColumn ) {
+	DataFun (  List<TestObject> fieldsNames, String fileName , String sheetName , List<TestObject> fieldsData ){
 
+		//getting certain objects that selected using Fields names inputs then stored in list by calling ObjectFun function
+		List<TestObject> listobject = new ArrayList<TestObject>((new pk_Functions.CS_SpecificObject()).ObjectFun(fileName ,sheetName , fieldsNames))
+		int column
 
-		WebDriver ndriver = DriverFactory.getWebDriver()
-
-		'To locate table'
-		WebElement Table = ndriver.findElement(By.id(webtableId))
-
-		'To locate rows of table it will Capture all the rows available in the table '
-		List<WebElement> Rows = Table.findElements(By.tagName('tr'))
-
-		println('No. of rows: ' + Rows.size())
-
-		'Find a matching text in a table and performing action'
-
-		'Loop will execute for all the rows of the table'
-		table: for (int i = 1; i < Rows.size(); i++) {
-			'To locate columns(cells) of that specific row'
-			List<WebElement> Cols = Rows.get(i).findElements(By.tagName('td'))
-
-			println('No. of colns: ' + Cols.size())
-			// for (int j = 0; j < Cols.size(); j++) {
-			'Verifying the expected text in the each cell'
-			if (Cols.get(expectedValueColumn).getText().equalsIgnoreCase(expectedValue)) {
-				'To locate anchor in the expected value matched row to perform action'
-				//Cols.get(4).findElement(By.tagName('a')).click()
-
-				Cols.get(actionButtonColumn).findElement(By.tagName('a')).click() ;
-
-				break
-			}
-			// }
+		//loop for setting data into list object that stored in list using ObjectFun function
+		for (column = 1; column <= listobject.size(); column++) {
+			WebUI.setText(listobject[(column - 1)], fieldsData[(column-1)])
 		}
 	}
 }
