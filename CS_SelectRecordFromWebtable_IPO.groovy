@@ -1,6 +1,6 @@
 package pk_Functions
 /* Created By ‘Asmaa El-Sayed and Ebtehal Gamal Yusuf ’
- * Date 06/01/2019
+ * Date 21/01/2019
  * Usage:This function is used to select record from webtable and click on any action button
  * Input: There are four inputs required for this function (Webtable locator ,Expected Value,Exepcted Value Column Value and Action Button Column Value) 
  * Output: Required record is located and actions button can be deteceted 
@@ -77,7 +77,7 @@ public class CS_SelectRecordFromWebtable_IPO {
 			// for (int j = 0; j < Cols.size(); j++) {
 			//Verifying the expected text in the each cell in specified column
 			if (Cols.get(expectedValueColumn).getText().equalsIgnoreCase(expectedValue)) {
-				println('No. of colns')
+
 				//2To locate anchor in the expected value matched row to perform action'
 				//Cols.get(4).findElement(By.tagName('a')).click()
 				WebUI.delay(4)
