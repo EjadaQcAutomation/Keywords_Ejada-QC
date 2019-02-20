@@ -15,6 +15,7 @@ import com.kms.katalon.core.cucumber.keyword.CucumberBuiltinKeywords as Cucumber
 import com.kms.katalon.core.mobile.keyword.MobileBuiltInKeywords as Mobile
 import com.kms.katalon.core.model.FailureHandling
 import com.kms.katalon.core.testcase.TestCase
+import com.kms.katalon.core.testdata.ExcelData
 import com.kms.katalon.core.testdata.TestData
 import com.kms.katalon.core.testobject.TestObject
 import com.kms.katalon.core.webservice.keyword.WSBuiltInKeywords as WS
@@ -25,14 +26,19 @@ import internal.GlobalVariable
 public class CS_VerifyPageData {
 
 	@Keyword
-	CheckMatching(String ObjectRepositoryFileName,String ObjectRepositorysheetName,String DataFileName) {
-		//getting all objects that stored in list by calling AllPageObjectFun function
-		List<TestObject> listObject = new ArrayList<TestObject>((new pk_Functions.CS_AllPageObject()).AllPageObjectFun (ObjectRepositoryFileName , ObjectRepositorysheetName ))
-		int column
-		///loop for setting data into list object that stored in list using AllPageObjectFun function and compare each value in the list by each value in excel
-		for (column = 1; column <= listObject.size(); column++) {
+	CheckMatching(  List<TestObject> fieldsNames, String fileName , String sheetName , List<TestObject> fieldsData ){
 
-			WebUI.verifyMatch(WebUI.getAttribute(listObject[(column-1)],'value'), findTestData(DataFileName).getValue(column,1), false, FailureHandling.STOP_ON_FAILURE)
+		//calling pk_Functions.CS_SpecificObject()
+		pk_Functions.CS_SpecificPageObject SpecificObject	=new pk_Functions.CS_SpecificPageObject()
+
+		//getting certain objects that selected using Fields names inputs then stored in list by calling ObjectFun function
+		List<TestObject> listObject = new ArrayList<TestObject>(SpecificObject.ObjectFun(fileName ,sheetName , fieldsNames))
+		int column
+
+		//loop for setting data into list object that stored in list using 	SpecificPageObject function
+		for (column = 1; column <= listObject.size(); column++) {
+			WebUI.verifyMatch(WebUI.getAttribute(listObject[(column-1)],'ng-reflect-model'),fieldsData[(column-1)], false)
 		}
 	}
 }
+

@@ -81,6 +81,7 @@ public class CS_SpecificPageData {
 				//set data of text into corresponding object
 				WebUI.setText(listObject[(column - 1)], fieldsData[(column-1)])
 				//if type equals LOV by select tag
+
 			}else if (data.getValue(2, index+1 )=="lov-select-tag"){
 
 				//select by label
@@ -97,7 +98,7 @@ public class CS_SpecificPageData {
 				(new pk_Functions.CS_StaticListUsingLiTag()).LovSearchFun (part1 , part2 ,fieldsData[(column-1)] )
 
 			}else if ((data.getValue(2, column )=="clickable") &&(fieldsData[(column-1)]=="clk")){
-
+				WebUI.delay(2)
 				WebUI.click(listObject[(column - 1)])
 
 			}else if ((data.getValue(2, column)=="check")&&(fieldsData[(column-1)]=="chk")){
